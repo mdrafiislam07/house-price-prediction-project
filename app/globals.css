@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+/* Palette: deep indigo + coral accent on a soft lavender paper. Rose red marks a price drop. */
+@theme {
+  --color-paper: #f6f5fb;
+  --color-ink: #1a1733;
+  --color-muted: #6b6889;
+  --color-line: #e1def0;
+  --color-bottle-950: #14102e;
+  --color-bottle-900: #1e1850;
+  --color-bottle-800: #2f2790;
+  --color-bottle-700: #4a3fd1;
+  --color-bottle-200: #c9c5f2;
+  --color-marigold: #ff7a59;
+  --color-marigold-soft: #ffe3d9;
+  --color-brick: #e11d48;
+}
+
+@theme inline {
+  --font-display: var(--font-grotesk), var(--font-noto), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-hind), ui-sans-serif, system-ui, sans-serif;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+}
+
+h1, h2, h3, h4 { font-weight: 600; letter-spacing: -0.01em; }
+
+::selection { background: var(--color-marigold); color: var(--color-bottle-950); }
+:focus-visible { outline: 2px solid var(--color-marigold); outline-offset: 2px; }
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+input[type="number"] { -moz-appearance: textfield; }
+
+/* measuring tape under the price range */
+.tape {
+  height: 20px;
+  background:
+    repeating-linear-gradient(to right, rgba(255,255,255,.5) 0 1px, transparent 1px 10px) top / 100% 8px no-repeat,
+    repeating-linear-gradient(to right, rgba(255,255,255,.9) 0 1px, transparent 1px 50px) top / 100% 16px no-repeat;
+}
+
+/* the one moment of motion: the range sweeps out when a prediction arrives */
+@keyframes sweep { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+.sweep { transform-origin: left center; animation: sweep .9s cubic-bezier(.2,.7,.2,1) .15s both; }
+.rise { animation: rise .6s cubic-bezier(.2,.7,.2,1) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .sweep, .rise { animation: none; }
+  * { transition-duration: 0.01ms !important; }
+}
